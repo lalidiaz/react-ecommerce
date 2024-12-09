@@ -32,7 +32,7 @@ export interface LoaderDataProducts {
 
 export interface CartProps {
   amount: number;
-  cartID: number;
+  cartID: string;
   company: string;
   image: string;
   name: string;

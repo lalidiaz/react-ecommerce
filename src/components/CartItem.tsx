@@ -1,16 +1,20 @@
 import { formatPrice, generateAmountOptions } from "../utils";
 import { removeItem, editItem } from "../features/cart/cartSlice";
-import { useDispatch } from "react-redux";
+import { CartProps } from "../types";
+import { useAppDispatch } from "../hooks";
 
-const CartItem = ({ cartItem }) => {
-  const dispatch = useDispatch();
+interface Props {
+  cartItem: CartProps;
+}
 
-  console.log("cartItem", cartItem);
+const CartItem = ({ cartItem }: Props) => {
+  const dispatch = useAppDispatch();
 
   const removeItemFromTheCart = () => {
     dispatch(removeItem({ cartID }));
   };
-  const handleAmount = (e) => {
+
+  const handleAmount = (e: { target: { value: string } }) => {
     dispatch(editItem({ cartID, amount: parseInt(e.target.value) }));
   };
 

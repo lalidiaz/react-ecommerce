@@ -2,7 +2,9 @@ const About = () => {
   return (
     <div className="max-w-4xl mx-auto">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">About iGlam</h1>
+        <h1 className="text-4xl font-bold leading-none tracking-tight sm:text-6xl">
+          About iGlam
+        </h1>
         <p className="text-lg text-gray-600">A Demo E-commerce Project</p>
       </div>
 
@@ -25,7 +27,8 @@ const About = () => {
                 Frontend Stack
               </h3>
               <ul className="space-y-2 text-gray-700">
-                <li>• React.js for component-based UI development</li>
+                <li>• React.js</li>
+                <li>• Mongo DB</li>
                 <li>• Redux for state management</li>
                 <li>• Tailwind CSS for responsive styling</li>
                 <li>• Modern ES6+ JavaScript</li>

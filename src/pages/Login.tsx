@@ -7,11 +7,11 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { customFetch } from "../utils";
-import { ErrorResponse } from "../types";
 import { loginUser } from "../features/user/userSlice";
 import { toast } from "react-toastify";
 import { useAppDispatch } from "../hooks";
 import { store } from "../store";
+import axios from "axios";
 
 interface LoginFormData {
   email: string;
@@ -43,9 +43,17 @@ export const action: ActionFunction = async ({
     toast.success("logged in successfully");
     return redirect("/");
   } catch (error) {
-    const errorMessage =
-      (error as ErrorResponse)?.response?.data?.error?.message ||
-      "please double check your credentials";
+    console.log(error);
+
+    let errorMessage = "please double check your credentials";
+
+    if (axios.isAxiosError(error) && error.response) {
+      errorMessage = error.response.data?.error?.message || errorMessage;
+
+      if (error.response.status === 401 || error.response.status === 403) {
+        return redirect("/login");
+      }
+    }
 
     toast.error(errorMessage);
     return null;

@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
 const themes = {
-  light: "lofi",
-  dark: "black",
+  light: "autumn",
+  dark: "coffee",
 };
 
 const getThemeFromLocalStorage = () => {
@@ -21,8 +21,6 @@ const initialState = {
   user: getUserFromLocalStorage(),
   theme: getThemeFromLocalStorage(),
 };
-
-console.log("getUserFromLocalStorage()", getUserFromLocalStorage());
 
 const userSlice = createSlice({
   name: "user",

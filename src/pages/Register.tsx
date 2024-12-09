@@ -2,7 +2,7 @@ import { FormInput, SubmitBtn } from "../components";
 import { Form, Link, redirect, ActionFunction } from "react-router-dom";
 import { toast } from "react-toastify";
 import { customFetch } from "../utils";
-import { ErrorResponse } from "../types";
+import axios from "axios";
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
@@ -13,9 +13,17 @@ export const action: ActionFunction = async ({ request }) => {
     toast.success("account created successfully");
     return redirect("/login");
   } catch (error) {
-    const errorMessage =
-      (error as ErrorResponse)?.response?.data?.error?.message ||
-      "please double check your credentials";
+    console.log(error);
+
+    let errorMessage = "please double check your credentials";
+
+    if (axios.isAxiosError(error) && error.response) {
+      errorMessage = error.response.data?.error?.message || errorMessage;
+
+      if (error.response.status === 401 || error.response.status === 403) {
+        return redirect("/login");
+      }
+    }
 
     toast.error(errorMessage);
     return null;

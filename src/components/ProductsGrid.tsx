@@ -20,14 +20,14 @@ const ProductsGrid = () => {
               <img
                 src={image}
                 alt={name}
-                className=" h-64 md:h-48 w-full object-cover"
+                className="rounded-lg h-64 md:h-48 w-full object-cover"
               />
             </figure>
             <div className="card-body items-center text-center">
               <h2 className="card-title capitalize tracking-wider font-worksans">
                 {name}
               </h2>
-              <span className="text-secondary">{dollarsAmount}</span>
+              <span className="text-primary">{dollarsAmount}</span>
             </div>
           </Link>
         );
