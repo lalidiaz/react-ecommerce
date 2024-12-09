@@ -33,9 +33,7 @@ const Navbar = () => {
         <div className="navbar-start">
           {/* Title */}
           <NavLink to="/" className="hidden lg:flex text-3xl items-center ">
-            <a className="w-32">
-              <img src="/iglam.png" />
-            </a>
+            <img src="/iglam.png w-32" />
           </NavLink>
           {/* DROPDOWN */}
           <div className="dropdown">
