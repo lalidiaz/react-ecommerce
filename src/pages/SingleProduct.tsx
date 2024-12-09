@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Product } from "../types";
 import { AxiosResponse } from "axios";
+import { useDispatch } from "react-redux";
+import { addItem } from "../features/cart/cartSlice";
+import { generateAmountOptions } from "../utils";
 
 interface ProuctProps {
   product: Product;
@@ -25,6 +28,22 @@ const SingleProduct = () => {
 
   const handleAmount = (e: { target: { value: string } }) => {
     setAmount(parseInt(e.target.value));
+  };
+
+  const dispatch = useDispatch();
+  const cartProduct = {
+    cartID: product.id + productColor,
+    productID: product.id,
+    image,
+    name,
+    price,
+    amount,
+    productColor,
+    company,
+  };
+
+  const addToCart = () => {
+    dispatch(addItem({ product: cartProduct }));
   };
 
   return (
@@ -91,17 +110,12 @@ const SingleProduct = () => {
               value={amount}
               onChange={handleAmount}
             >
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-              <option value={3}>3</option>
+              {generateAmountOptions(20)}
             </select>
           </div>
 
           <div className="mt-10 ">
-            <button
-              className="btn btn-secondary btn-md"
-              onClick={() => console.log("add to bag")}
-            >
+            <button className="btn btn-secondary btn-md" onClick={addToCart}>
               Add to bag
             </button>
           </div>

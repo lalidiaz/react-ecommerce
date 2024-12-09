@@ -3,9 +3,10 @@ interface Props {
   name: string;
   type: string;
   defaultValue?: string;
+  size?: string;
 }
 
-const FormInput = ({ label, name, type, defaultValue }: Props) => {
+const FormInput = ({ label, name, type, defaultValue, size }: Props) => {
   return (
     <div className="form-control ">
       <label className="label">
@@ -15,7 +16,7 @@ const FormInput = ({ label, name, type, defaultValue }: Props) => {
         type={type}
         name={name}
         defaultValue={defaultValue}
-        className="input input-bordered "
+        className={`input input-bordered ${size}`}
       />
     </div>
   );

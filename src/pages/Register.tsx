@@ -1,5 +1,26 @@
 import { FormInput, SubmitBtn } from "../components";
-import { Form, Link } from "react-router-dom";
+import { Form, Link, redirect, ActionFunction } from "react-router-dom";
+import { toast } from "react-toastify";
+import { customFetch } from "../utils";
+import { ErrorResponse } from "../types";
+
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
+  try {
+    const response = await customFetch.post("/auth/register", data);
+    console.log("response", response);
+    toast.success("account created successfully");
+    return redirect("/login");
+  } catch (error) {
+    const errorMessage =
+      (error as ErrorResponse)?.response?.data?.error?.message ||
+      "please double check your credentials";
+
+    toast.error(errorMessage);
+    return null;
+  }
+};
 
 const Register = () => {
   return (

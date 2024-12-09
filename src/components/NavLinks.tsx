@@ -1,3 +1,5 @@
+import { useAppSelector } from "../hooks";
+
 const links = [
   { id: 1, url: "/", text: "home" },
   { id: 2, url: "about", text: "about" },
@@ -9,10 +11,13 @@ const links = [
 import { NavLink } from "react-router-dom";
 
 const NavLinks = () => {
+  const user = useAppSelector((state) => state.userState.user);
+
   return (
     <>
       {links.map((link) => {
         const { id, url, text } = link;
+        if ((url === "checkout" || url === "orders") && !user) return null;
         return (
           <li key={id}>
             <NavLink className="capitalize" to={url}>

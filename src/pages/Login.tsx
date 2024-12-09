@@ -1,7 +1,75 @@
 import { FormInput, SubmitBtn } from "../components";
-import { Form, Link } from "react-router-dom";
+import {
+  Form,
+  Link,
+  ActionFunction,
+  redirect,
+  useNavigate,
+} from "react-router-dom";
+import { customFetch } from "../utils";
+import { ErrorResponse } from "../types";
+import { loginUser } from "../features/user/userSlice";
+import { toast } from "react-toastify";
+import { useAppDispatch } from "../hooks";
+import { store } from "../store";
+
+interface LoginFormData {
+  email: string;
+  password: string;
+}
+
+interface User {
+  name: string;
+  userId: string;
+  role: string;
+}
+
+interface LoginResponse {
+  user: User;
+  token: string;
+}
+
+export const action: ActionFunction = async ({
+  request,
+}: {
+  request: Request;
+}) => {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData) as unknown as LoginFormData;
+  try {
+    const response = await customFetch.post<LoginResponse>("/auth/login", data);
+
+    store.dispatch(loginUser(response.data));
+    toast.success("logged in successfully");
+    return redirect("/");
+  } catch (error) {
+    const errorMessage =
+      (error as ErrorResponse)?.response?.data?.error?.message ||
+      "please double check your credentials";
+
+    toast.error(errorMessage);
+    return null;
+  }
+};
 
 const Login = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const loginAsGuestUser = async () => {
+    try {
+      const response = await customFetch.post("/auth/login", {
+        email: "test@user.com",
+        password: "test_password",
+      });
+      dispatch(loginUser(response.data));
+      toast.success("welcome guest user");
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      toast.error("guest user login error.please try later.");
+    }
+  };
   return (
     <section className="h-screen grid place-items-center">
       <Form
@@ -12,19 +80,23 @@ const Login = () => {
         <FormInput
           type="email"
           label="email"
-          name="identifier"
-          defaultValue="test@test.com"
+          name="email"
+          defaultValue="store_admin@gmail.com"
         />
         <FormInput
           type="password"
           label="password"
           name="password"
-          defaultValue="secret"
+          defaultValue="my_secret_password"
         />
         <div className="mt-4">
           <SubmitBtn text="login" />
         </div>
-        <button type="button" className="btn btn-secondary btn-block">
+        <button
+          type="button"
+          className="btn btn-secondary btn-block"
+          onClick={loginAsGuestUser}
+        >
           guest user
         </button>
         <p className="text-center">

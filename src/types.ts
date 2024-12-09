@@ -29,3 +29,24 @@ export interface Product {
 export interface LoaderDataProducts {
   products: Product[];
 }
+
+export interface CartProps {
+  amount: number;
+  cartID: number;
+  company: string;
+  image: string;
+  name: string;
+  price: number;
+  productColor: string;
+  productID: string;
+}
+
+export interface ErrorResponse {
+  response?: {
+    data?: {
+      error?: {
+        message?: string;
+      };
+    };
+  };
+}
